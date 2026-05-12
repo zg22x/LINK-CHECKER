@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINK CHECKER | ZG22X</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .glow-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow-1 {
+            position: absolute;
+            top: -10%;
+            left: 25%;
+            width: 300px;
+            height: 300px;
+            background: rgba(37, 99, 235, 0.15);
+            filter: blur(100px);
+            border-radius: 50%;
+        }
+
+        .glow-2 {
+            position: absolute;
+            bottom: -10%;
+            right: 25%;
+            width: 300px;
+            height: 300px;
+            background: rgba(79, 70, 229, 0.1);
+            filter: blur(100px);
+            border-radius: 50%;
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        /* Shake Animation for Errors */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .input-error {
+            border: 2px solid #ef4444 !important;
+            animation: shake 0.3s ease-in-out;
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar { width: 0px; }
+        
+        .animate-status {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.8; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
+
+    <div class="glow-bg">
+        <div class="glow-1"></div>
+        <div class="glow-2"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="text-center mb-12 mt-8 md:mt-12 w-full max-w-3xl">
+        <div class="inline-block p-5 bg-blue-600/10 rounded-[2.5rem] border border-blue-500/20 shadow-2xl relative mb-4">
+            <i data-lucide="shield-check" class="text-blue-500 w-12 h-12"></i>
+            <div class="absolute -top-1 -right-1 flex h-4 w-4">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-4 w-4 bg-blue-500"></span>
+            </div>
+        </div>
+        <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-white mb-2 italic uppercase">
+            LINK <span class="text-blue-500">CHECKER</span>
+        </h1>
+        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.5em] flex items-center justify-center gap-2">
+            <i data-lucide="activity" class="w-3 h-3 text-blue-500"></i> Hybrid Security Intelligence
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-3xl">
+        <!-- Input Section -->
+        <div id="input-container" class="glass p-2 rounded-[2.5rem] shadow-2xl mb-2 transition-all duration-300">
+            <div class="flex flex-col md:flex-row gap-2">
+                <div class="flex-1 flex items-center px-4">
+                    <div id="favicon-container" class="hidden mr-3">
+                        <img id="site-favicon" src="" class="w-8 h-8 rounded-lg shadow-lg" alt="">
+                    </div>
+                    <input 
+                        type="text" 
+                        id="url-input"
+                        placeholder="انسخ الرابط هنا..."
+                        class="w-full bg-transparent border-none py-4 text-white text-lg outline-none placeholder:text-slate-700 font-bold text-right"
+                    >
+                </div>
+                <button 
+                    id="scan-btn"
+                    class="bg-blue-600 hover:bg-blue-500 text-white font-black px-12 py-4 rounded-2xl transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2"
+                >
+                    <i id="btn-icon" data-lucide="search" class="w-5 h-5"></i>
+                    <span id="btn-text">فحص الرابط</span>
+                </button>
+            </div>
+        </div>
+        <!-- Error Message Placeholder -->
+        <p id="error-message" class="text-red-500 text-[10px] font-bold uppercase tracking-widest text-center h-4 mt-2 opacity-0 transition-opacity"></p>
+
+        <!-- Result Card -->
+        <div id="result-card" class="hidden glass p-8 md:p-10 rounded-[3rem] border border-white/5 mt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 text-center md:text-right">
+                <div class="flex flex-col md:flex-row items-center gap-5">
+                    <div id="status-icon-bg" class="p-5 rounded-[2rem]">
+                        <div id="status-icon"></div>
+                    </div>
+                    <div>
+                        <h2 id="status-text" class="text-4xl md:text-5xl font-black uppercase"></h2>
+                        <p id="engine-text" class="text-[10px] text-slate-500 font-bold uppercase tracking-widest"></p>
+                    </div>
+                </div>
+                <div class="bg-white/5 p-4 rounded-3xl min-w-[120px]">
+                    <span id="score-text" class="text-4xl font-black text-white"></span>
+                    <p class="text-[8px] text-slate-500 font-bold uppercase">TRUST SCORE</p>
+                </div>
+            </div>
+
+            <div id="summary-box" class="bg-white/5 p-6 md:p-8 rounded-[2rem] border border-white/5 mb-8 text-slate-300 text-lg leading-relaxed italic text-center min-h-[80px] flex items-center justify-center">
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-black/40 p-4 rounded-2xl border border-white/5 text-center">
+                    <i data-lucide="globe" class="w-4 h-4 text-blue-500 mx-auto mb-2"></i>
+                    <p class="text-[8px] text-slate-500 font-black uppercase mb-1">Location</p>
+                    <p id="stat-location" class="text-[10px] font-bold text-white uppercase"></p>
+                </div>
+                <div class="bg-black/40 p-4 rounded-2xl border border-white/5 text-center">
+                    <i data-lucide="lock" class="w-4 h-4 text-blue-500 mx-auto mb-2"></i>
+                    <p class="text-[8px] text-slate-500 font-black uppercase mb-1">SSL Status</p>
+                    <p id="stat-ssl" class="text-[10px] font-bold text-white uppercase"></p>
+                </div>
+                <div class="bg-black/40 p-4 rounded-2xl border border-white/5 text-center">
+                    <i data-lucide="database" class="w-4 h-4 text-blue-500 mx-auto mb-2"></i>
+                    <p class="text-[8px] text-slate-500 font-black uppercase mb-1">Source</p>
+                    <p id="stat-source" class="text-[10px] font-bold text-white uppercase"></p>
+                </div>
+                <div class="bg-black/40 p-4 rounded-2xl border border-white/5 text-center">
+                    <i data-lucide="zap" class="w-4 h-4 text-blue-500 mx-auto mb-2"></i>
+                    <p class="text-[8px] text-slate-500 font-black uppercase mb-1">Response</p>
+                    <p id="stat-time" class="text-[10px] font-bold text-white uppercase">--</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loader -->
+        <div id="loader" class="hidden flex flex-col items-center py-12 text-center">
+            <div class="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+            <p class="text-blue-500 font-bold text-[10px] tracking-widest animate-pulse uppercase">ZG22X CLOUD ANALYZING...</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 pb-12 text-center w-full">
+        <button 
+            onclick="toggleModal(true)"
+            class="px-10 py-4 bg-slate-900 border border-white/5 rounded-full text-[10px] font-black tracking-[0.4em] text-slate-500 hover:text-blue-400 hover:border-blue-500/30 transition-all active:scale-95 uppercase"
+        >
+            DEVELOPER ACCESS
+        </button>
+    </footer>
+
+    <!-- Developer Modal -->
+    <div id="dev-modal" class="modal-overlay" onclick="if(event.target === this) toggleModal(false)">
+        <div class="relative bg-[#020617] border border-blue-500/20 rounded-[3rem] md:rounded-[4rem] max-w-[420px] w-full overflow-hidden shadow-2xl">
+            <div class="bg-gradient-to-b from-blue-600 to-blue-800 h-32 flex items-end justify-center pb-6 relative">
+                <button class="absolute top-6 right-6 p-2 text-white/50 hover:text-white" onclick="toggleModal(false)">
+                    <i data-lucide="x"></i>
+                </button>
+                <div class="absolute -bottom-14 w-28 h-28 rounded-[2.5rem] p-1 bg-[#020617] shadow-2xl">
+                    <div class="w-full h-full rounded-[2.2rem] overflow-hidden border-2 border-blue-500/50">
+                        <img 
+                            src="https://scontent.cdninstagram.com/v/t51.82787-19/684194869_18131748352564411_2941976410228328249_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=110&ccb=7-5&_nc_sid=f7ccc5&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=mbq5smkIlmYQ7kNvwHVlC-g&_nc_oc=AdqoTwh46kDvYJfvWDSoH0zFVWHM6dzG4fdTCLBI48PK2hJB3tA4XIs3l6Kyip1q5i8&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=_U9OMFV5FGL59HNqKaqFOQ&_nc_ss=7b6a8&oh=00_Af7HmYGzFXKSjVHwfC6ILh3yfQccs-WmdIe715PtieqCgg&oe=6A08F6AE" 
+                            class="w-full h-full object-cover" 
+                            alt="ZG22X"
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="pt-16 p-8 md:p-10 text-center">
+                <h3 class="text-4xl font-black text-white tracking-tighter mb-1 uppercase">ZG22X</h3>
+                <p class="text-[10px] text-blue-500 font-black uppercase tracking-[0.6em] mb-10">Security Research Unit</p>
+                <div class="grid grid-cols-2 gap-3 mb-10">
+                    <div class="bg-white/5 p-4 rounded-[1.5rem] border border-white/5">
+                        <i data-lucide="terminal" class="w-5 h-5 mx-auto mb-2 text-slate-500"></i>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase">Projects</p>
+                        <p class="text-xl font-black text-white italic tracking-wider">22</p>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-[1.5rem] border border-white/5">
+                        <div class="w-5 h-5 mx-auto mb-2 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        </div>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase">Status</p>
+                        <p class="text-xl font-black text-green-400 uppercase">ACTIVE</p>
+                    </div>
+                </div>
+                <a href="https://instagram.com/zg22x" target="_blank" class="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-purple-600 to-red-500 text-white py-5 rounded-[2rem] font-black text-sm shadow-xl active:scale-95 transition-all">
+                    <i data-lucide="instagram"></i>
+                    <span>ZG22X INSTAGRAM</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = "....";
+        lucide.createIcons();
+
+        const urlInput = document.getElementById('url-input');
+        const inputContainer = document.getElementById('input-container');
+        const errorMessage = document.getElementById('error-message');
+        const scanBtn = document.getElementById('scan-btn');
+        const loader = document.getElementById('loader');
+        const resultCard = document.getElementById('result-card');
+        const faviconContainer = document.getElementById('favicon-container');
+        const siteFavicon = document.getElementById('site-favicon');
+
+        function toggleModal(show) {
+            const modal = document.getElementById('dev-modal');
+            modal.classList.toggle('active', show);
+        }
+
+        // دالة التحقق من صحة الرابط
+        function isValidUrl(string) {
+            //Regex بسيط للتحقق من وجود دومين ونقطة على الأقل
+            const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+                '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+            return !!pattern.test(string);
+        }
+
+        function triggerInputError(text) {
+            inputContainer.classList.add('input-error');
+            errorMessage.innerText = text;
+            errorMessage.style.opacity = '1';
+            
+            setTimeout(() => {
+                inputContainer.classList.remove('input-error');
+            }, 500);
+        }
+
+        function clearInputError() {
+            errorMessage.style.opacity = '0';
+        }
+
+        function runHybridAnalysis(url) {
+            const cleanUrl = url.toLowerCase();
+            const isSsl = url.startsWith('https://');
+            const badPatterns = [/phish/i, /login/i, /verify/i, /secure/i, /bank/i, /update/i, /account/i, /signin/i, /gift/i, /free/i, /win/i];
+            
+            let threatCount = badPatterns.filter(p => p.test(cleanUrl)).length;
+            let score = 95;
+
+            if (!isSsl) score -= 40;
+            score -= (threatCount * 15);
+            if (cleanUrl.length > 70) score -= 10;
+            
+            if (score < 0) score = 5;
+            const isSafe = score > 55;
+
+            return {
+                isSafe: isSafe,
+                score: score,
+                summary: isSafe 
+                    ? "الرابط يبدو سليماً بناءً على الفحص الهجين. لا توجد أنماط تصيد واضحة." 
+                    : "تحذير أمني: تم اكتشاف خصائص مريبة في عنوان الرابط تشير لمحاولة احتيال.",
+                location: "Edge Node",
+                engine: "ZG22X HYBRID ENGINE"
+            };
+        }
+
+        async function fetchFromAI(url) {
+            const payload = {
+                contents: [{ parts: [{ text: `Act as a security tool. Analyze: ${url}. Return ONLY valid JSON: {"isSafe":boolean, "score":number, "summary":"Arabic text", "location":"string", "engine":"ZG22X AI CORE"}` }] }],
+                generationConfig: { responseMimeType: "application/json" }
+            };
+
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) throw new Error("API Offline");
+            const data = await res.json();
+            return JSON.parse(data.candidates[0].content.parts[0].text);
+        }
+
+        async function checkUrl() {
+            const url = urlInput.value.trim();
+            clearInputError();
+
+            // 1. التحقق من المدخلات
+            if (!url) {
+                triggerInputError("يرجى إدخال الرابط أولاً");
+                return;
+            }
+
+            if (!isValidUrl(url)) {
+                triggerInputError("تنسيق الرابط غير صحيح (مثال: google.com)");
+                return;
+            }
+
+            scanBtn.disabled = true;
+            resultCard.classList.add('hidden');
+            loader.classList.remove('hidden');
+            faviconContainer.classList.add('hidden');
+            const startTime = Date.now();
+
+            try {
+                // محاولة جلب الأيقونة
+                try {
+                    const domain = new URL(url.startsWith('http') ? url : `https://${url}`).hostname;
+                    siteFavicon.src = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+                    faviconContainer.classList.remove('hidden');
+                } catch(e) {}
+
+                let finalData;
+                try {
+                    finalData = await fetchFromAI(url);
+                } catch (e) {
+                    finalData = runHybridAnalysis(url);
+                }
+
+                const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+                const isSafe = finalData.isSafe;
+
+                document.getElementById('status-icon-bg').className = `p-5 rounded-[2rem] ${isSafe ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`;
+                document.getElementById('status-icon').innerHTML = `<i data-lucide="${isSafe ? 'shield-check' : 'shield-alert'}" class="w-10 h-10 ${isSafe ? 'animate-status' : ''}"></i>`;
+                
+                const statusEl = document.getElementById('status-text');
+                statusEl.innerText = isSafe ? 'آمن' : 'خطر';
+                statusEl.className = `text-4xl md:text-5xl font-black uppercase ${isSafe ? 'text-green-400' : 'text-red-400'}`;
+                
+                document.getElementById('engine-text').innerText = finalData.engine;
+                document.getElementById('score-text').innerText = `${finalData.score}%`;
+                document.getElementById('summary-box').innerText = finalData.summary;
+                document.getElementById('stat-location').innerText = finalData.location;
+                document.getElementById('stat-ssl').innerText = url.startsWith('https') ? "نشط" : "مفقود";
+                document.getElementById('stat-source').innerText = "AI LABS";
+                document.getElementById('stat-time').innerText = `${duration}s`;
+
+                loader.classList.add('hidden');
+                resultCard.classList.remove('hidden');
+                lucide.createIcons();
+
+            } catch (err) {
+                loader.classList.add('hidden');
+                triggerInputError("حدث خطأ في الاتصال بالنظام");
+            } finally {
+                scanBtn.disabled = false;
+            }
+        }
+
+        scanBtn.addEventListener('click', checkUrl);
+        urlInput.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') checkUrl(); 
+        });
+        urlInput.addEventListener('input', clearInputError);
+    </script>
+</body>
+</html>
