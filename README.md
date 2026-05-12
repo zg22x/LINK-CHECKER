@@ -1,4 +1,4 @@
-# 🛡️ ZAKI AI - Elite Link Checker
+# 🛡️ ZAKI - Link Checker
 
 **ZAKI AI Link Checker** هو نظام متطور لفحص الروابط يعتمد على الذكاء الاصطناعي (Gemini 2.5 Flash) وتقنيات التحليل السيبراني لاكتشاف روابط التصيد الاحتيالي (Phishing) والروابط المشبوهة بدقة عالية.
 
