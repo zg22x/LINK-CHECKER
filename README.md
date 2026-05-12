@@ -32,7 +32,7 @@ Gemini 2.5 Flash API (Security AI)
 
 قم بتحميل المستودع:
 
-git clone [https://github.com/YOUR_USERNAME/link-checker.git](https://github.com/YOUR_USERNAME/link-checker.git)
+git clone [https://github.com/zg22x/LINK-CHECKER.git](https://github.com/zg22x/LINK-CHECKER.git)
 
 
 انتقل لمجلد المشروع:
