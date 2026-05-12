@@ -1,43 +1,16 @@
-🛡️ ZAKI – Link Checker
-
-LINK CHECKER هو نظام ذكي متطور لفحص الروابط، يعتمد على الذكاء الاصطناعي (Gemini 2.5 Flash) وتقنيات التحليل السيبراني لاكتشاف الروابط المشبوهة ومحاولات التصيّد (Phishing) قبل فتحها.
-
-🚀 Features
-🤖 AI Analysis
-تحليل الروابط باستخدام Gemini 2.5 Flash لفهم المحتوى وتقييم الأمان.
-🔗 Hybrid Detection System
-دمج بين محركات فحص عالمية والذكاء الاصطناعي الخاص بالمشروع.
-🖼️ Dynamic Favicon Preview
-عرض أيقونة الموقع تلقائيًا لتسهيل التعرف البصري على الرابط.
-📊 Confidence Score
-تقييم ذكي من 0% إلى 100% يوضح مدى أمان الرابط.
-🎨 Futuristic UI
-واجهة حديثة (Dark Mode) باستخدام React + Tailwind CSS + Framer Motion.
-🛡️ Zero Trust Validation
-فلترة صارمة للمدخلات قبل أي عملية تحليل أو إرسال طلبات.
-🛠️ Tech Stack
-React.js
-Tailwind CSS
-Framer Motion
-Lucide React
-Gemini 2.5 Flash API
-📦 Installation
+🛡️ <h1 align="center">ZAKI – Link Checker</h1>
+<p align="center"> AI-powered cybersecurity tool for detecting phishing and malicious links ⚡ </p>
+🚀 Installation
+📥 Clone Repository
 git clone https://github.com/zg22x/LINK-CHECKER.git
+📂 Enter Project Folder
 cd link-checker
+📦 Install Dependencies
 npm install
+🔧 Install Extra Packages
 npm install lucide-react framer-motion
-
-ثم أضف مفتاح الـ API داخل:
-
+🔑 Add API Key
 const apiKey = "YOUR_GEMINI_API_KEY";
-
-وأخيرًا شغّل المشروع:
-
+▶️ Run Project
 npm start
-📜 License
-
-هذا المشروع مخصص للاستخدام الشخصي والتعليمي تحت إشراف المطور ZG22X.
-
-❤️ Developed by
-
-ZG22X
+🔥 Tip (شكل العنوان الكبير)
