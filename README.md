@@ -10,7 +10,7 @@
   يستخدم نموذج Gemini 2.5 Flash لتحليل الروابط وفهم سلوكها الأمني.
 
 - 🔗 **Hybrid Detection System**  
-  دمج بين محركات فحص عالمية + ذكاء اصطناعي خاص بـ ZAKI لزيادة الدقة.
+  دمج بين أدوات فحص روابط خارجية + ذكاء اصطناعي خاص بـ ZAKI لزيادة الدقة.
 
 - 🌐 **Dynamic Favicon**  
   عرض أيقونة الموقع تلقائياً بجانب الرابط لتسهيل التعرف البصري.
@@ -18,23 +18,22 @@
 - 📊 **Confidence Score**  
   تقييم أمان الرابط بنسبة مئوية من 0% إلى 100%.
 
-- 🎨 **Futuristic UI**  
-  واجهة حديثة (Dark Mode) مبنية بـ:
-  - React.js  
-  - Tailwind CSS  
-  - Framer Motion  
+- 🎨 **Modern UI (HTML Version)**  
+  واجهة حديثة وسريعة مبنية باستخدام:
+  - HTML5  
+  - CSS3  
+  - JavaScript  
 
 - 🔒 **Zero Trust Logic**  
-  رفض أي روابط أو مدخلات غير صالحة قبل معالجتها.
+  رفض أي روابط أو مدخلات غير صالحة قبل تحليلها.
 
 ---
 
 ## 🛠️ Tech Stack | التقنيات المستخدمة
 
-- React.js ⚛️ (Frontend)
-- Tailwind CSS 🎨 (Styling)
-- Framer Motion 🎬 (Animations)
-- Lucide React 🎯 (Icons)
+- HTML5 🧱 (Structure)
+- CSS3 🎨 (Styling & UI Design)
+- JavaScript ⚙️ (Logic & API Handling)
 - Gemini 2.5 Flash API 🤖 (AI Security Engine)
 
 ---
@@ -46,24 +45,27 @@
 git clone https://github.com/zg22x/LINK-CHECKER.git
 
 # Enter project folder
-cd link-checker
-
-# Install dependencies
-npm install lucide-react framer-motion
-
-# Run project
-npm start
+cd LINK-CHECKER
 ```
+
+بعدها:
+
+### ▶️ تشغيل المشروع
+
+- افتح ملف:
+```
+index.html
+```
+
+- أو اضغط عليه مرتين مباشرة في المتصفح
 
 ---
 
 ## 🔑 API Setup
 
-أضف مفتاح Gemini API داخل ملف:
+افتح ملف JavaScript الرئيسي (مثلاً `script.js`) وأضف مفتاح Gemini API:
 
 ```js
-SafeLinkApp.jsx
-
 const apiKey = "YOUR_GEMINI_API_KEY";
 ```
 
