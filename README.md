@@ -1,62 +1,43 @@
-🛡️ ZAKI- Link Checker
+🛡️ ZAKI – Link Checker
 
-LINK CHECKER هو نظام فحص روابط هجين متطور يعتمد على الذكاء الاصطناعي (Gemini 2.5 Flash) وتقنيات التحليل السيبراني للكشف عن محاولات التصيد الاحتيالي (Phishing) والروابط المشبوهة.
+LINK CHECKER هو نظام ذكي متطور لفحص الروابط، يعتمد على الذكاء الاصطناعي (Gemini 2.5 Flash) وتقنيات التحليل السيبراني لاكتشاف الروابط المشبوهة ومحاولات التصيّد (Phishing) قبل فتحها.
 
-🚀 المميزات (Features)
-
-AI Analysis: استخدام موديل Gemini 2.5 Flash لتحليل الروابط وفهم سياقها الأمني.
-
-Hybrid Detection: نظام دمج بين محركات فحص الروابط العالمية والذكاء الاصطناعي الخاص بـ ZAKI.
-
-Dynamic Favicon: عرض شعار الموقع (Icon) بجانب الرابط بشكل تلقائي لتسهيل التعرف البصري.
-
-Confidence Score: مؤشر دقة ذكي يحدد مدى أمان الرابط من 0% إلى 100%.
-
-Futuristic UI: واجهة مستخدم سينمائية (Dark Mode) مبنية باستخدام React و Tailwind CSS و Framer Motion.
-
-Zero Trust Logic: نظام برمجبي يرفض أي مدخلات غير صالحة (Invalid URL) قبل استهلاك الطلبات.
-
-🛠️ التقنيات المستخدمة (Tech Stack)
-
-React.js (Frontend Framework)
-
-Tailwind CSS (Styling)
-
-Framer Motion (Animations)
-
-Lucide React (Icons)
-
-Gemini 2.5 Flash API (Security AI)
-
-📦 طريقة التشغيل (Installation)
-
-قم بتحميل المستودع:
-
-git clone [https://github.com/zg22x/LINK-CHECKER.git](https://github.com/zg22x/LINK-CHECKER.git)
-
-
-انتقل لمجلد المشروع:
-
+🚀 Features
+🤖 AI Analysis
+تحليل الروابط باستخدام Gemini 2.5 Flash لفهم المحتوى وتقييم الأمان.
+🔗 Hybrid Detection System
+دمج بين محركات فحص عالمية والذكاء الاصطناعي الخاص بالمشروع.
+🖼️ Dynamic Favicon Preview
+عرض أيقونة الموقع تلقائيًا لتسهيل التعرف البصري على الرابط.
+📊 Confidence Score
+تقييم ذكي من 0% إلى 100% يوضح مدى أمان الرابط.
+🎨 Futuristic UI
+واجهة حديثة (Dark Mode) باستخدام React + Tailwind CSS + Framer Motion.
+🛡️ Zero Trust Validation
+فلترة صارمة للمدخلات قبل أي عملية تحليل أو إرسال طلبات.
+🛠️ Tech Stack
+React.js
+Tailwind CSS
+Framer Motion
+Lucide React
+Gemini 2.5 Flash API
+📦 Installation
+git clone https://github.com/zg22x/LINK-CHECKER.git
 cd link-checker
-
-
-ثبت المكتبات اللازمة:
-
+npm install
 npm install lucide-react framer-motion
 
-
-أضف مفتاح الـ API الخاص بك في ملف SafeLinkApp.jsx:
+ثم أضف مفتاح الـ API داخل:
 
 const apiKey = "YOUR_GEMINI_API_KEY";
 
-
-شغل المشروع:
+وأخيرًا شغّل المشروع:
 
 npm start
+📜 License
 
+هذا المشروع مخصص للاستخدام الشخصي والتعليمي تحت إشراف المطور ZG22X.
 
-📜 رخصة الاستخدام (License)
+❤️ Developed by
 
-هذا المشروع متاح للاستخدام الشخصي والتعليمي تحت إشراف المطور ZG22X.
-
-Developed with ❤️ by ZG22X
+ZG22X
