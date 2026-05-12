@@ -43,7 +43,7 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/YOUR_USERNAME/link-checker.git
+git clone https://github.com/zg22x/LINK-CHECKER.git
 
 # Enter project folder
 cd link-checker
